@@ -4,9 +4,9 @@
 read -p "Enter the name of the helm chart: " chartname
 
 # Create the required directories and files
-mkdir $chartname
-mkdir "$chartname/templates"
-touch "$chartname/values.yaml"
+sudo mkdir $chartname
+sudo mkdir "$chartname/templates"
+sudo touch "$chartname/values.yaml"
 
 # Populate Chart.yaml with the chart name
 cat > "$chartname/Chart.yaml" <<EOF
