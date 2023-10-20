@@ -1,12 +1,17 @@
 #!/bin/bash
 
-# Prompt the user for the name of the chart
-read -p "Enter the name of the helm chart: " chartname
+# Check if the chart name argument is provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <chart-name>"
+    exit 1
+fi
+
+chartname=$1
 
 # Create the required directories and files
-sudo mkdir $chartname
-sudo mkdir "$chartname/templates"
-sudo touch "$chartname/values.yaml"
+mkdir $chartname
+mkdir "$chartname/templates"
+touch "$chartname/values.yaml"
 
 # Populate Chart.yaml with the chart name
 cat > "$chartname/Chart.yaml" <<EOF
