@@ -1,5 +1,6 @@
 
 
+
 ```bash
 curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/container_d.sh | bash
 
@@ -8,7 +9,9 @@ curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/container_d
 
 
 
+### Install all
 
+```powershell
 
 sl "C:\code\private\kubernetes2022\Infrastructure\Own_Cluster\Create_Infrastructure\VMS\Lone_VM"
 
@@ -35,6 +38,7 @@ Flannel Manually (I think)
 curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/config_kubectl.sh | bash
 
 
+curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/helm_install.sh | bash
 
 Autocomplete manuall (I think)
 curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/autocomplete.sh | bash
@@ -48,7 +52,7 @@ sudo kubeadm join 10.56.10.4:6443 --token eh3mtr.4yxqn4rntdxgzaos \
 kubectl create deployment helloworld --replicas 4 --image mcr.microsoft.com/azuredocs/aks-helloworld:v1
 
 
-
+```
 
 
 ### Start everything
