@@ -50,3 +50,32 @@ kubectl create deployment helloworld --replicas 4 --image mcr.microsoft.com/azur
 
 
 
+
+### Start everything
+
+```powershell
+
+. C:\code\azure\init.ps1
+
+az vm start -g RG-KUBEVM-MASTER10 -n kube-master-10 --no-wait --subscription $subid_intit_teachingtest
+
+az vm start -g RG-KUBEVM-WORKER11 -n kube-worker-11 --no-wait --subscription $subid_intit_teachingtest
+
+az vm start -g RG-KUBEVM-WORKER12 -n kube-worker-12 --no-wait --subscription $subid_intit_teachingtest
+
+```
+
+### Stop everything
+
+
+```powershell
+
+. C:\code\azure\init.ps1
+
+az vm deallocate -g RG-KUBEVM-MASTER10 -n kube-master-10 --no-wait --subscription $subid_intit_teachingtest
+
+az vm deallocate -g RG-KUBEVM-WORKER11 -n kube-worker-11 --no-wait --subscription $subid_intit_teachingtest
+
+az vm deallocate -g RG-KUBEVM-WORKER12 -n kube-worker-12 --no-wait --subscription $subid_intit_teachingtest
+
+```
