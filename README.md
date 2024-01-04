@@ -24,7 +24,40 @@ sl "C:\code\private\kubernetes2022\Infrastructure\Own_Cluster\Create_Infrastruct
 
 
 
-curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/container_d.sh | bash
+## NAME="container_d.sh"
+NAME="kubeadm.sh"
+## NAME="kubeadm_init.sh"
+## NAME="config_kubectl.sh"
+
+
+curl -s -o $NAME https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/$NAME | bash
+chmod +x $NAME
+./$NAME
+
+
+```bash
+
+#!/bin/bash
+
+# Array containing the script names
+script_names=("container_d.sh" "kubeadm.sh" "kubeadm_init.sh")
+
+# Base URL
+base_url="https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu"
+
+# Loop over the script names
+for NAME in "${script_names[@]}"; do
+    # Download the script
+    curl -s -o $NAME $base_url/$NAME
+    # Make the script executable
+    chmod +x $NAME
+    # Run the script
+    ./$NAME
+done
+
+
+
+```
 
 
 curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/kubeadm.sh | bash
@@ -81,5 +114,16 @@ az vm deallocate -g RG-KUBEVM-MASTER10 -n kube-master-10 --no-wait --subscriptio
 az vm deallocate -g RG-KUBEVM-WORKER11 -n kube-worker-11 --no-wait --subscription $subid_intit_teachingtest
 
 az vm deallocate -g RG-KUBEVM-WORKER12 -n kube-worker-12 --no-wait --subscription $subid_intit_teachingtest
+
+```
+
+
+### Helm chart
+
+```powershell
+
+
+read -p "Enter the name of the helm chart: " chartname && \
+curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/helm_chart.sh | bash -s -- $chartname
 
 ```
