@@ -16,7 +16,7 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor | 
 
 #Update the package list and use apt-cache policy to inspect versions available in the repository
 sudo apt-get update
-apt-cache policy kubelet | head -n 20 
+## apt-cache policy kubelet | head -n 20 
 
 
 
