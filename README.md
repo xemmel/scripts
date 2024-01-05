@@ -24,10 +24,10 @@ sl "C:\code\private\kubernetes2022\Infrastructure\Own_Cluster\Create_Infrastruct
 
 
 
-## NAME="container_d.sh"
-## NAME="kubeadm.sh"
-## NAME="kubeadm_init.sh"
-NAME="config_kubectl.sh"
+NAME="container_d.sh"
+##NAME="kubeadm.sh"
+##NAME="kubeadm_init.sh"
+##NAME="config_kubectl.sh"
 
 
 curl -s -o $NAME https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/$NAME | bash

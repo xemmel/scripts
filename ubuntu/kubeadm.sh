@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.28.0-00
+VERSION=1.28.2-00
 
 #Install Kubernetes packages - kubeadm, kubelet and kubectl
 #Add Google's apt repository gpg key
@@ -32,8 +32,8 @@ sudo apt-mark hold kubelet kubeadm kubectl containerd
 #1 - systemd Units
 #Check the status of our kubelet and our container runtime, containerd.
 #The kubelet will enter a crashloop until a cluster is created or the node is joined to an existing cluster.
-sudo systemctl status kubelet.service 
-sudo systemctl status containerd.service 
+## sudo systemctl status kubelet.service 
+## sudo systemctl status containerd.service 
 
 
 
