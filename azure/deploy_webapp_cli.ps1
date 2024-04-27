@@ -5,8 +5,7 @@ param (
     [string]$slot = ''
 )
 
-if ($subscriptionId.Length -eq 0)
-{
+if ($subscriptionId.Length -eq 0) {
     $subscriptionId = az account show | ConvertFrom-Json | Select-Object -ExpandProperty id;
     Write-Host("Setting SubscriptionId to current CLI Id: ${subscriptionId}");
 }
@@ -32,12 +31,24 @@ cd .\publish
 Compress-Archive -Force -Path * -DestinationPath ..\publish.zip
 cd ..
 
-Write-Host("Publish to Azure: ${rgName}/${webAppName}. Slot: ${slot}");
+if ($slot.Length -gt 0) {
+    Write-Host("Publish to Azure: ${rgName}/${webAppName}. Sub: ${subscriptionId} Slot: ${slot}");
 
-az webapp deploy `
+    az webapp deploy `
         --resource-group $rgName `
         --name $webAppName `
         --src-path ./publish.zip `
         --subscription $subscriptionId `
         --slot $slot
-;
+    ;
+}
+else {
+    Write-Host("Publish to Azure: ${rgName}/${webAppName}.  Sub: ${subscriptionId}");
+
+    az webapp deploy `
+        --resource-group $rgName `
+        --name $webAppName `
+        --src-path ./publish.zip `
+        --subscription $subscriptionId
+    ;
+}
