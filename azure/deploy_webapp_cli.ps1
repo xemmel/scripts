@@ -2,7 +2,7 @@ param (
     [string]$rgName,
     [string]$webAppName,
     [string]$subscriptionId = '',
-    [string]$slot = 'production'
+    [string]$slot = ''
 )
 
 if ($subscriptionId.Length -eq 0)
