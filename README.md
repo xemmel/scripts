@@ -127,3 +127,15 @@ read -p "Enter the name of the helm chart: " chartname && \
 curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/helm_chart.sh | bash -s -- $chartname
 
 ```
+
+
+
+## POWERSHEL
+
+### Deploy web app
+
+```powershell
+
+Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/deploy_webapp_cli.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa -slot stage"
+
+```
