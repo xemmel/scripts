@@ -15,5 +15,6 @@ az webapp deployment slot swap `
     --resource-group $rgName `
     --name $webAppName `
     --slot $slot `
-    --target-slot $targetSlot
+    --target-slot $targetSlot `
+    --subscription $subscriptionId
 ;
