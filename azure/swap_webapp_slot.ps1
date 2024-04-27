@@ -11,6 +11,8 @@ if ($subscriptionId.Length -eq 0) {
     Write-Host("Setting SubscriptionId to current CLI Id: ${subscriptionId}");
 }
 
+Write-Host("Swapping: ${slot} to ${targetSlot}  (${rgName}/${webAppName}). Sub: ${subscriptionId}");
+
 az webapp deployment slot swap `
     --resource-group $rgName `
     --name $webAppName `
