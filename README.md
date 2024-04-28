@@ -149,10 +149,17 @@ Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xem
 
 Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/view_access_restrictions.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa"
 
+#### With slot
+
+Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/view_access_restrictions.ps1) } -rgName $rgName -webappName $webAppName/slots/stage -subscriptionId $subid_intit_visa"
+
 ### Deny by default
 
-Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/set_default_restriction_action.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa -action Deny -ipRange $myIp -priority 400"
+Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/set_default_restriction_action.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa -action Deny"
 
+#### With slot
+
+Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/set_default_restriction_action.ps1) } -rgName $rgName -webappName $webAppName/slots/stage -subscriptionId $subid_intit_visa -action Deny"
 
 
 
@@ -161,5 +168,12 @@ Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xem
 $myIp = ((Invoke-WebRequest ifconfig.me/ip).Content);
 
 Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/add_access_restriction.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa -ruleName ownerspc -ipRange $myIp -priority 400"
+
+### With slot 
+
+$myIp = ((Invoke-WebRequest ifconfig.me/ip).Content);
+
+Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/add_access_restriction.ps1) } -rgName $rgName -webappName $webAppName/slots/stage -subscriptionId $subid_intit_visa -ruleName ownerspc -ipRange $myIp -priority 400"
+;
 
 ```
