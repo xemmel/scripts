@@ -141,7 +141,7 @@ curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/helm_chart.
 
 [Back to top](#table-of-content)
 
-## POWERSHEL
+## POWERSHELL
 
 ### Deploy web app
 
