@@ -155,8 +155,13 @@ Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xem
 
 Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/deploy_webapp_cli.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa -slot stage"
 
+```
+
+[Back to top](#table-of-content)
 
 ### View access restrictions
+
+```powershell
 
 Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/view_access_restrictions.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa"
 
@@ -164,7 +169,14 @@ Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xem
 
 Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/view_access_restrictions.ps1) } -rgName $rgName -webappName $webAppName/slots/stage -subscriptionId $subid_intit_visa"
 
+```
+
+[Back to top](#table-of-content)
+
 ### Deny by default
+
+
+```powershell
 
 Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/set_default_restriction_action.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa -action Deny"
 
@@ -172,9 +184,13 @@ Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xem
 
 Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/set_default_restriction_action.ps1) } -rgName $rgName -webappName $webAppName/slots/stage -subscriptionId $subid_intit_visa -action Deny"
 
+```
 
+[Back to top](#table-of-content)
 
 ### Set My Ip Access striction
+
+```powershell
 
 $myIp = ((Invoke-WebRequest ifconfig.me/ip).Content);
 
