@@ -149,6 +149,12 @@ Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xem
 
 Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/view_access_restrictions.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa"
 
+### Deny by default
+
+Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/set_default_restriction_action.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa -action Deny -ipRange $myIp -priority 400"
+
+
+
 
 ### Set My Ip Access striction
 
