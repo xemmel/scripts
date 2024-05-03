@@ -159,6 +159,17 @@ Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xem
 
 [Back to top](#table-of-content)
 
+
+### Swap slots
+
+```powershell
+
+Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/swap_webapp_slot.ps1) } -rgName $rgName -webappName $webAppName -subscriptionId $subid_intit_visa -slot stage"
+
+```
+
+[Back to top](#table-of-content)
+
 ### View access restrictions
 
 ```powershell
