@@ -5,6 +5,8 @@
 ## Table of Content
 1. [Kubernetes](#kubernetes)
 2. [Powershell](#powershell)
+3. [Security](#security)
+
 
 
 
@@ -213,6 +215,17 @@ $myIp = ((Invoke-WebRequest ifconfig.me/ip).Content);
 
 Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/webapps/add_access_restriction.ps1) } -rgName $rgName -webappName $webAppName/slots/stage -subscriptionId $subid_intit_visa -ruleName ownerspc -ipRange $myIp -priority 400"
 ;
+
+```
+
+[Back to top](#table-of-content)
+
+
+## Security
+
+```powershell
+
+Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/security/get_token.ps1) } -tenant $tenant -clientId $clientId -secret $clientSecret -scope $scope"
 
 ```
 
