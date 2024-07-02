@@ -38,7 +38,9 @@ sl "C:\code\private\kubernetes2022\Infrastructure\Own_Cluster\Create_Infrastruct
 
 
 NAME="container_d.sh"
-##NAME="kubeadm.sh"
+##NAME="kubeadm.sh" ## DeP
+##NAME="kubeadm_new.sh"
+
 ##NAME="kubeadm_init.sh"
 ##NAME="config_kubectl.sh"
 
@@ -225,7 +227,9 @@ Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xem
 
 ```powershell
 
-Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/azure/security/get_token.ps1) } -tenant $tenant -clientId $clientId -secret $clientSecret -scope $scope"
+Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/xemmel/scripts/main/security/get_token.ps1) } -tenant $tenant -clientId $clientId -secret $clientSecret -scope $scope";
+
+$token = get-clipboard;
 
 ```
 

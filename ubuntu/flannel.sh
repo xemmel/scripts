@@ -2,7 +2,7 @@
 
 
 
-curl https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/canal.yaml -O
+curl https://raw.githubusercontent.com/projectcalico/calico/master/manifests/canal.yaml -O
 
 POD_CIDR="192.168.0.0/16";
 
