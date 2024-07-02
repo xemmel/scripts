@@ -35,6 +35,7 @@ sl "C:\code\private\kubernetes2022\Infrastructure\Own_Cluster\Create_Infrastruct
 . .\VNET\select_existing_subnet_v3.ps1
 
 
+NAME="update.sh"
 
 
 NAME="container_d.sh"
@@ -43,11 +44,14 @@ NAME="container_d.sh"
 
 ##NAME="kubeadm_init.sh"
 ##NAME="config_kubectl.sh"
+##NAME="autocomplete.sh"
 
 
-curl -s -o $NAME https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/$NAME | bash
-chmod +x $NAME
-./$NAME
+
+curl -s -o $NAME https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/$NAME | bash;
+chmod +x $NAME;
+./$NAME;
+
 
 
 ```bash
@@ -145,6 +149,42 @@ curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/helm_chart.
 
 ```
 
+#### Kind install on Ubuntu
+
+```bash
+
+sudo apt install docker.io -y
+
+sudo groupadd docker
+
+sudo usermod -aG docker $USER
+
+(logoff/on)
+
+
+
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
+
+
+
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+
+kind create cluster
+
+
+sudo apt-get install -y bash-completion;
+echo "source <(kubectl completion bash)" >> ~/.bashrc;
+source ~/.bashrc;
+
+
+
+```
+
 [Back to top](#table-of-content)
 
 ## POWERSHELL
@@ -236,3 +276,5 @@ $token = get-clipboard;
 ```
 
 [Back to top](#table-of-content)
+
+
