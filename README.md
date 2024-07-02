@@ -100,6 +100,8 @@ sudo kubeadm join 10.56.10.4:6443 --token eh3mtr.4yxqn4rntdxgzaos \
 kubectl create deployment helloworld --replicas 4 --image mcr.microsoft.com/azuredocs/aks-helloworld:v1
 
 
+kubectl apply -f https://raw.githubusercontent.com/xemmel/scripts/main/kubernetes/full_deployment.yaml
+
 ```
 
 
