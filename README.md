@@ -151,27 +151,32 @@ curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/helm_chart.
 
 #### Kind install on Ubuntu
 
+
+### See https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries for new version
+
 ```bash
 
-sudo apt install docker.io -y
+sudo apt update;
+sudo apt upgrade -y;
 
-sudo groupadd docker
+sudo apt install docker.io -y;
+sudo groupadd docker;
+sudo usermod -aG docker $USER;
 
-sudo usermod -aG docker $USER
 
 (logoff/on)
 
 
 
-[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64
-chmod +x ./kind
-sudo mv ./kind /usr/local/bin/kind
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64;
+chmod +x ./kind;
+sudo mv ./kind /usr/local/bin/kind;
 
 
 
 
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl";
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl;
 
 
 kind create cluster
@@ -182,6 +187,19 @@ echo "source <(kubectl completion bash)" >> ~/.bashrc;
 source ~/.bashrc;
 
 
+kubectl create namespace test;
+kubectl config set-context --current --namespace test;
+kubectl apply -f https://raw.githubusercontent.com/xemmel/scripts/main/kubernetes/full_deployment.yaml; 
+kubectl get all;
+
+
+
+### Smaller prompt
+
+sed -i 's/PS1='\''${debian_chroot:+(\$debian_chroot)}\\\[\\033\[01;32m\\\]\\u@\\h\\\[\\033\[00m\\\]:\\\[\\033\[01;34m\\\]\\w\\\[\\033\[00m\\\]\\\$ '\''/PS1='\''${debian_chroot:+(\$debian_chroot)}\\\[\\033\[01;32m\\\]\\u:\\\[\\033\[01;34m\\\]\\w\\\[\\033\[00m\\\]\\\$ '\''/' ~/.bashrc
+
+
+PS1='\[\033[01;34m\]\u:\w\$ \[\033[01;32m\]'
 
 ```
 
