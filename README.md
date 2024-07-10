@@ -296,3 +296,59 @@ $token = get-clipboard;
 [Back to top](#table-of-content)
 
 
+
+### Azure CLI on Ubuntu
+
+```bash
+
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+```
+
+
+#### Azure ACR Image
+
+```bash
+
+kubectl create secret docker-registry azure-secret \
+    --docker-server=iitaks.azurecr.io \
+    --docker-username=iitaks \
+    --docker-password=5VkpxbS4qVIUHiDv3o6fdC=L2v=e1dP6
+
+
+```
+
+##### Results in 
+
+```yaml
+
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJpaXRha3MuYXp1cmVjci5pbyI6eyJ1c2VybmFtZSI6ImlpdGFrcyIsInBhc3N3b3JkIjoiNVZrcHhiUzRxVklVSGlEdjNvNmZkQz1MMnY9ZTFkUDYiLCJhdXRoIjoiYVdsMFlXdHpPalZXYTNCNFlsTTBjVlpKVlVocFJIWXpielptWkVNOVRESjJQV1V4WkZBMiJ9fX0=
+
+```
+
+> Prettified
+
+```json
+
+{
+  "auths": {
+    "iitaks.azurecr.io": {
+      "username": "iitaks",
+      "password": "5VkpxbS4qVIUHiDv3o6fdC=L2v=e1dP6",
+      "auth": "aWl0YWtzOjVWa3B4YlM0cVZJVUhpRHYzbzZmZEM9TDJ2PWUxZFA2"
+    }
+  }
+}
+
+```
+
+```yaml
+
+      containers:
+        - name: azurecontainer
+          image: iitaks.azurecr.io/asyncapi:1.0
+      imagePullSecrets:
+        - name: azure-secret
+
+```
