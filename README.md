@@ -141,11 +141,45 @@ az vm deallocate -g RG-KUBEVM-WORKER12 -n kube-worker-12 --no-wait --subscriptio
 
 ### Helm chart
 
-```powershell
+```bash
 
 
 read -p "Enter the name of the helm chart: " chartname && \
 curl -s https://raw.githubusercontent.com/xemmel/scripts/main/ubuntu/helm_chart.sh | bash -s -- $chartname
+
+```
+
+### Manual Helm
+
+```bash
+
+CHARTNAME="morten"
+mkdir $CHARTNAME && mkdir $CHARTNAME/templates && touch $CHARTNAME/Chart.yaml && touch $CHARTNAME/templates/deployment.yaml
+
+echo -e "apiVersion: v2\nname: $CHARTNAME\nversion: 0.1.0\ndescription: A Helm chart for Kubernetes\nappVersion: 1.0.0" > $CHARTNAME/Chart.yaml
+
+
+## cat $CHARTNAME/Chart.yaml
+
+
+echo -e "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: {{ .Values.app.name }}-deployment\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: {{ .Values.app.name }}\n  template:\n    metadata:\n      labels:\n        app: {{ .Values.app.name }}\n    spec:\n      containers:\n        - name: {{ .Values.app.name }}-container\n          image: {{ .Values.app.image }}" > $CHARTNAME/templates/deployment.yaml
+
+echo -e "apiVersion: v1\nkind: Service\nmetadata:\n  name: {{ .Values.app.name }}-service\nspec:\n  type: ClusterIP\n  selector:\n    app: {{ .Values.app.name }}\n  ports:\n    - protocol: TCP\n      port: 80\n      targetPort: 80" > $CHARTNAME/templates/service.yaml
+
+
+cat $CHARTNAME/templates/deployment.yaml
+
+helm install firstinstall $CHARTNAME \
+	--namespace $CHARTNAME \
+	--create-namespace \
+	--set "app.name=$CHARTNAME" \
+	--set "app.image=nginx"
+
+kubectl get all --namespace $CHARTNAME
+
+helm uninstall firstinstall --namespace $CHARTNAME
+
+rm $CHARTNAME -rf
 
 ```
 
@@ -162,6 +196,7 @@ sudo apt upgrade -y;
 sudo apt install docker.io -y;
 sudo groupadd docker;
 sudo usermod -aG docker $USER;
+newgrp docker;
 
 
 (logoff/on)
@@ -179,18 +214,102 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl;
 
 
+### Helm (One line at a time!!!)
+
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null;
+sudo apt-get install apt-transport-https --yes;
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/;stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list;
+sudo apt-get update;
+sudo apt-get install helm;
+
+
+
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+sudo apt-get install apt-transport-https --yes
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+
+
+
+
+
 kind create cluster
 
+### INGRESS CLUSTER
+
+#!/bin/bash
+
+# Define the configuration content
+CONFIG_CONTENT=$(cat <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 443
+    protocol: TCP
+- role: worker
+EOF
+)
+
+# Create the configuration file
+echo "$CONFIG_CONTENT" > ingress_cluster.yaml
+
+# Create the cluster
+kind create cluster --name ingress --config ingress_cluster.yaml
+
+
+
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+
+### Kubectl auto-complete
 
 sudo apt-get install -y bash-completion;
 echo "source <(kubectl completion bash)" >> ~/.bashrc;
 source ~/.bashrc;
 
 
+#### Helm auto-complete
+
+echo "source <(helm completion bash)" >> ~/.bashrc;
+source ~/.bashrc;
+
+
+
 kubectl create namespace test;
 kubectl config set-context --current --namespace test;
 kubectl apply -f https://raw.githubusercontent.com/xemmel/scripts/main/kubernetes/full_deployment.yaml; 
 kubectl get all;
+
+#### Ingress manually
+
+kubectl create ingress simple --rule="/test=test-service:80" --annotation nginx.ingress.kubernetes.io/rewrite-target=/
+
+### Install sqlcmd
+
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc;
+curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list;
+
+sudo apt-get update;
+sudo apt-get install mssql-tools18 unixodbc-dev;
+
+echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bash_profile
+echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+source ~/.bash_profile
+source ~/.bashrc
 
 
 
@@ -303,6 +422,49 @@ $token = get-clipboard;
 
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
+sudo apt install dotnet-sdk-8.0 -y
+
+sudo apt  install jq -y
+
+
+
+
+```
+
+### azure functions cli
+
+```bash
+
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
+
+sudo apt-get update
+
+sudo apt-get install azure-functions-core-tools-4
+
+```
+
+
+#### Get Managed Identity Token
+
+```bash
+
+SCOPE="https://storage.azure.com/";
+URL="http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=$SCOPE";
+
+### Get Token with pretty json
+
+curl $URL -H "metadata:true" | jq .
+
+### Decode token
+
+curl $URL -H "metadata:true" | jq .access_token -r | cut -d "." -f 2 | base64 -d | jq .
+
+
+
+
 ```
 
 
@@ -352,3 +514,36 @@ data:
         - name: azure-secret
 
 ```
+
+
+### Web Server 
+
+```bash
+
+sudo apt install nginx -y
+
+cp /var/www/html/index.html /tmp/index.html
+sudo rm /var/www/html/index.html
+
+sudo vim /var/www/html/index.html
+
+```
+
+#### Services
+
+```bash
+
+### List all running
+
+systemctl list-units --type=service --state=running
+
+
+systemctl list-units --type=service --state=running | grep nginx
+
+systemctl list-units --type=service --all | grep nginx
+
+sudo systemctl start nginx.service;
+
+
+```
+

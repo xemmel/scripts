@@ -1,0 +1,21 @@
+## 3 way handshake
+
+Client -> Server   SYN Seq x
+Server -> Client  SYN Seq y, ACK Seq x+1
+Client -> Server ACK Seq y+1
+
+    1 0.000000000 80.167.177.6 → 10.22.1.4    TCP 66 55490 → 80 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 WS=256 SACK_PERM=1
+    2 0.000193704    10.22.1.4 → 80.167.177.6 TCP 66 80 → 55490 [SYN, ACK] Seq=0 Ack=1 Win=64240 Len=0 MSS=1460 SACK_PERM=1 WS=128
+    3 0.047751012 80.167.177.6 → 10.22.1.4    TCP 60 55490 → 80 [ACK] Seq=1 Ack=1 Win=132352 Len=0
+
+
+sudo tshark -f "host 80.167.177.6 and port 80" -o tcp.relative_sequence_numbers:FALSE
+
+    1 0.000000000 80.167.177.6 → 10.22.1.4    TCP 66 55889 → 80 [SYN] Seq=272427451 Win=64240 Len=0 MSS=1460 WS=256 SACK_PERM=1
+    2 0.000118602    10.22.1.4 → 80.167.177.6 TCP 66 80 → 55889 [SYN, ACK] Seq=2513897306 Ack=272427452 Win=64240 Len=0 MSS=1460 SACK_PERM=1 WS=128
+    3 0.048079818 80.167.177.6 → 10.22.1.4    TCP 60 55889 → 80 [ACK] Seq=272427452 Ack=2513897307 Win=132352 Len=0
+
+
+
+### Finish Communication
+
